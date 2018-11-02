@@ -61,7 +61,19 @@ export class TicTacGame {
     }
 
     verticalWin():boolean{
-        return false;
+        let win : boolean = false;
+        for(let i=0; i<this.board.length; i++){
+        let column : BoxStatus[] = [];
+            for(let j=0; j<this.board.length; j++){
+                column.push(this.board[j][i]);
+            }
+            let player : BoxStatus = column[0];
+            if (player!==EMPTY_MARK && column.every((p: BoxStatus)=>{return p===player})){
+                this.winner = player;
+                win = true;
+            }
+        }
+        return win;
     }
 
     diagonalWin():boolean{
