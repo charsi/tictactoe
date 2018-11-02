@@ -20,9 +20,12 @@ tictac.draw();
         }catch(e){
             console.log('ERROR: '+e);
         }
-        if(!tictac.finished()){ 
+        if(!tictac.gameOver()){ 
             nextMove();
-        }else rl.close();     
+        }else {
+            rl.close();
+            console.log('Game Over! '+tictac.winner+' wins');
+        }     
     });
 })();
 

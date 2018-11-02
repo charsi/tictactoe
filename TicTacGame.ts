@@ -53,9 +53,7 @@ export class TicTacGame {
         }else mark = this.nextPlayer();
         this.lastPlayer = mark;
         this.board[hIndex][vIndex] = mark;
-        if(!this.gameOver()){
-            this.draw();
-        }
+        this.draw();
     }
 
     nextPlayer(): BoxStatus{
@@ -77,7 +75,7 @@ export class TicTacGame {
             let row : BoxStatus[] = this.board[i];
             for(let j=0; j<row.length; j++){
                 let player : BoxStatus = row[0];
-                if (row.every((p: BoxStatus)=>{return p===player})){
+                if (player!==EMPTY_MARK && row.every((p: BoxStatus)=>{return p===player})){
                     this.winner = player;
                     win = true;
                 }
