@@ -1,8 +1,8 @@
 // one character only please
 
-const PLAYER_A_MARK = "X";
-const PLAYER_B_MARK = "O";
-const EMPTY_MARK = " ";
+const PLAYER_A_MARK = 'X';
+const PLAYER_B_MARK = 'O';
+const EMPTY_MARK = ' ';
 
 export type BoxStatus = typeof EMPTY_MARK | typeof PLAYER_A_MARK | typeof PLAYER_B_MARK;
 
@@ -27,27 +27,27 @@ export class TicTacGame {
 
     draw(){
         let str : string[] = [];
-        str.push("   |");
+        str.push('   |');
         for(let i=0; i<this.size; i++){
-            str.push(" "+i.toString()+" |");//header
+            str.push(' '+i.toString()+' |');//header
         }
         str.push("\n");
         for(let x=0; x<this.size; x++){
-            str.push(" "+x.toString()+" |"); //rows
+            str.push(' '+x.toString()+' |'); //rows
             for(let y=0; y<this.size; y++){
                 let boxMark =  this.board[x][y];
-                str.push(" "+boxMark+" |"); //columns
+                str.push(' '+boxMark+' |'); //columns
             }
-            str.push("\n");
+            str.push('\n');
         }
-        console.log(str.join(""));
+        console.log(str.join(''));
     }
 
     go(hIndex:number, vIndex:number){
         if(this.gameOver()){
             throw 'this game already ended';
         }
-        if(this.board[hIndex][vIndex]!==EMPTY_MARK){
+        if(this.board[vIndex][hIndex]!==EMPTY_MARK){
             throw 'that box has already been filled';
         }
         let mark:BoxStatus;
@@ -55,7 +55,7 @@ export class TicTacGame {
             mark = PLAYER_A_MARK;
         }else mark = this.nextPlayer();
         this.lastPlayer = mark;
-        this.board[hIndex][vIndex] = mark;
+        this.board[vIndex][hIndex] = mark;
         this.draw();
     }
 
