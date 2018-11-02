@@ -14,7 +14,7 @@ tictac.draw();
 
 
 (function nextMove(){
-    rl.question('enter position:', (answer:number[])=>{
+    rl.question('Player '+tictac.nextPlayer()+' position:', (answer:number[])=>{
         try{
             tictac.go(answer[1],answer[0]);
         }catch(e){
