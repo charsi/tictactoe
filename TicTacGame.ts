@@ -18,7 +18,7 @@ export class TicTacGame {
         for(let i=0;i<this.size;i++){
             let row : BoxStatus[] = [];
             for(let j=0;j<this.size;j++){
-                row.push(" ");
+                row.push(EMPTY_MARK);
             }
             this.board.push(row);
         }
@@ -44,8 +44,11 @@ export class TicTacGame {
     }
 
     go(hIndex:number, vIndex:number){
+        if(this.gameOver()){
+            throw 'this game already ended';
+        }
         if(this.board[hIndex][vIndex]!==EMPTY_MARK){
-            throw "that box has already been filled";
+            throw 'that box has already been filled';
         }
         let mark:BoxStatus;
         if(this.lastPlayer===EMPTY_MARK){
@@ -62,9 +65,9 @@ export class TicTacGame {
 
     verticalWin():boolean{
         let win : boolean = false;
-        for(let i=0; i<this.board.length; i++){
+        for(let i=0; i<this.size; i++){
         let column : BoxStatus[] = [];
-            for(let j=0; j<this.board.length; j++){
+            for(let j=0; j<this.size; j++){
                 column.push(this.board[j][i]);
             }
             let player : BoxStatus = column[0];
@@ -76,21 +79,41 @@ export class TicTacGame {
         return win;
     }
 
-    diagonalWin():boolean{
-        return false;
-    }
-
-
     horizontalWin():boolean{
         let win : boolean = false;
-        for(let i=0; i<this.board.length; i++){
+        for(let i=0; i<this.size; i++){
             let row : BoxStatus[] = this.board[i];
-            for(let j=0; j<row.length; j++){
+            for(let j=0; j<this.size; j++){
                 let player : BoxStatus = row[0];
                 if (player!==EMPTY_MARK && row.every((p: BoxStatus)=>{return p===player})){
                     this.winner = player;
                     win = true;
                 }
+            }
+        }
+        return win;
+    }
+
+    diagonalWin():boolean{
+        let win : boolean = false;
+        let diagonalvaluesA : BoxStatus[] = [];
+        for(let i=0; i<this.size; i++){
+            diagonalvaluesA.push(this.board[i][i]);
+        }
+        let player : BoxStatus = diagonalvaluesA[0];
+        if (player!==EMPTY_MARK && diagonalvaluesA.every((p: BoxStatus)=>{return p===player})){
+            this.winner = player;
+            win = true;
+        }
+        if(!win){
+            let diagonalvaluesB : BoxStatus[] = [];
+            for(let i=0; i<this.size; i++){
+                diagonalvaluesB.push(this.board[this.size-1-i][i]);
+            }
+            player = diagonalvaluesB[0];
+            if (player!==EMPTY_MARK && diagonalvaluesB.every((p: BoxStatus)=>{return p===player})){
+                this.winner = player;
+                win = true;
             }
         }
         return win;
