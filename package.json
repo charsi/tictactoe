@@ -2,7 +2,7 @@
   "name": "tictac",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/run.js",
+  "main": "dist/app.js",
   "scripts": {
     "start": "./run.sh",
     "tsc": "node_modules/.bin/tsc"
@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "typescript": "^3.1.6"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.2"
   }
 }
