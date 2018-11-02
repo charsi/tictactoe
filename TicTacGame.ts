@@ -63,7 +63,7 @@ export class TicTacGame {
         return (this.lastPlayer===PLAYER_A_MARK)? PLAYER_B_MARK : PLAYER_A_MARK;
     }
 
-    verticalWin():boolean{
+    private verticalWin():boolean{
         let win : boolean = false;
         for(let i=0; i<this.size; i++){
         let column : BoxStatus[] = [];
@@ -79,22 +79,20 @@ export class TicTacGame {
         return win;
     }
 
-    horizontalWin():boolean{
+    private horizontalWin():boolean{
         let win : boolean = false;
         for(let i=0; i<this.size; i++){
             let row : BoxStatus[] = this.board[i];
-            for(let j=0; j<this.size; j++){
-                let player : BoxStatus = row[0];
-                if (player!==EMPTY_MARK && row.every((p: BoxStatus)=>{return p===player})){
-                    this.winner = player;
-                    win = true;
-                }
+            let player : BoxStatus = row[0];
+            if (player!==EMPTY_MARK && row.every((p: BoxStatus)=>{return p===player})){
+                this.winner = player;
+                win = true;
             }
         }
         return win;
     }
 
-    diagonalWin():boolean{
+    private diagonalWin():boolean{
         let win : boolean = false;
         let diagonalvaluesA : BoxStatus[] = [];
         for(let i=0; i<this.size; i++){
