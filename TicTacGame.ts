@@ -1,3 +1,5 @@
+// one character only please
+
 const PLAYER_A_MARK = "X";
 const PLAYER_B_MARK = "O";
 const EMPTY_MARK = " ";
@@ -8,6 +10,7 @@ export class TicTacGame {
     size : number;
     board : BoxStatus[][];
     lastPlayer : BoxStatus;
+    winner : BoxStatus = EMPTY_MARK;
 
     constructor(size : number){
         this.size = size;
@@ -19,7 +22,7 @@ export class TicTacGame {
             }
             this.board.push(row);
         }
-        this.lastPlayer = " ";
+        this.lastPlayer = EMPTY_MARK;
     }
 
     draw(){
@@ -40,27 +43,53 @@ export class TicTacGame {
         console.log(str.join(""));
     }
 
-    go(hIndex:number, vIndex:number, mark: BoxStatus){
-        if(mark === " "){
-            throw '\''+EMPTY_MARK+'\' is not a valid mark';
-        }
-        if(mark == this.lastPlayer){
-            throw "same player can't go again";
-        }
+    go(hIndex:number, vIndex:number){
         if(this.board[hIndex][vIndex]!==EMPTY_MARK){
             throw "that box has already been filled";
         }
+        let mark:BoxStatus;
+        if(this.lastPlayer===EMPTY_MARK){
+            mark = PLAYER_A_MARK;
+        }else mark = this.nextPlayer();
+        this.lastPlayer = mark;
         this.board[hIndex][vIndex] = mark;
-        this.draw();
-    }
-
-    nextPlayer(){
-        if(this.lastPlayer===PLAYER_A_MARK){
-            return PLAYER_B_MARK;
+        if(!this.gameOver()){
+            this.draw();
         }
     }
 
-    finished(){
+    nextPlayer(): BoxStatus{
+        return (this.lastPlayer===PLAYER_A_MARK)? PLAYER_B_MARK : PLAYER_A_MARK;
+    }
+
+    verticalWin():boolean{
+        return false;
+    }
+
+    diagonalWin():boolean{
+        return false;
+    }
+
+
+    horizontalWin():boolean{
+        let win : boolean = false;
+        for(let i=0; i<this.board.length; i++){
+            let row : BoxStatus[] = this.board[i];
+            for(let j=0; j<row.length; j++){
+                let player : BoxStatus = row[0];
+                if (row.every((p: BoxStatus)=>{return p===player})){
+                    this.winner = player;
+                    win = true;
+                }
+            }
+        }
+        return win;
+    }
+
+    gameOver():boolean{
+        if(this.horizontalWin() || this.verticalWin() || this.diagonalWin()){
+            return true;
+        }
         return false;
     }
 };

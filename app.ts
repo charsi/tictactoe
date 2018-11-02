@@ -12,13 +12,17 @@ let rl = readline.createInterface({
 
 tictac.draw();
 
-while(!tictac.finished()){ // game still on
-    rl.prompt('enter position:', (answer:number[])=>{
-        tictac.go(answer[0],answer[1],"X");
-        rl.close();
+
+(function nextMove(){
+    rl.question('enter position:', (answer:number[])=>{
+        try{
+            tictac.go(answer[1],answer[0]);
+        }catch(e){
+            console.log('ERROR: '+e);
+        }
+        if(!tictac.finished()){ 
+            nextMove();
+        }else rl.close();     
     });
-}
+})();
 
-//tictac.go(1,1,"X");
-
-//tictac.go(1,0,"O");
